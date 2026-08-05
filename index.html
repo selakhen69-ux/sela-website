@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fashion Store</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>Fashion Store</h1>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Shop</a>
+    <a href="#">Contact</a>
+  </nav>
+  
+</header>
+
+<section class="hero">
+  <h2>New Collection 2026</h2>
+  <div class="filter">
+  <button onclick="filterProduct('all')">All</button>
+  <button onclick="filterProduct('men')">Men</button>
+  <button onclick="filterProduct('women')">Women</button>
+  <h2 style="text-align:center;">Customer Orders</h2>
+</div>
+  <p>Trendy & Stylish Clothes</p>
+</section>
+
+<section class="products">
+
+  <div class="card" data-category="men">
+    <img src="T.jpg">
+    <h3>Men T-Shirt</h3>
+    <p>$15</p>
+    <button onclick="buy('Men T-Shirt')">Buy</button>
+  </div>
+
+  <div class="card" data-category="women">
+    <img src="D.jpg">
+    <h3>Women Dress</h3>
+    <p>$25</p>
+    <button onclick="buy('Women Dress')">Buy</button>
+  </div>
+  <div class="card" data-category="women">
+    <img src="D.jpg">
+    <h3>Women Dress</h3>
+    <p>$25</p>
+    <button onclick="buy('Women Dress')">Buy</button>
+  </div>
+  <div class="card" data-category="women">
+    <img src="D.jpg">
+    <h3>Women Dress</h3>
+    <p>$25</p>
+    <button onclick="buy('Women Dress')">Buy</button>
+  </div>
+  <div class="card" data-category="women">
+    <img src="D.jpg">
+    <h3>Women Dress</h3>
+    <p>$25</p>
+    <button onclick="buy('Women Dress')">Buy</button>
+  </div>
+  
+  <div class="card" data-category="women">
+    <img src="D.jpg">
+    <h3>Women Dress</h3>
+    <p>$25</p>
+    <button onclick="buy('Women Dress')">Buy</button>
+  </div>
+  
+  <div class="card" data-category="men">
+    <img src="J.webp">
+    <h3>Men Jacket</h3>
+    <p>$40</p>
+    <button onclick="buy('Men Jacket')">Buy</button>
+  </div>
+  <h2 style="text-align:center;">Order Now</h2>
+
+<form id="orderForm">
+  <input type="text" id="name" placeholder="Your Name" required><br><br>
+  <input type="text" id="phone" placeholder="Phone Number" required><br><br>
+  <input type="text" id="address" placeholder="Address" required><br><br>
+  <input type="text" id="product" placeholder="Product" required><br><br>
+  
+  <button type="submit">Submit Order</button>
+</form>
+
+</section>
+
+<footer>
+  <p>© Sela Store</p>
+  <button onclick="viewOrders()">View Orders</button>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
