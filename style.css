@@ -1,77 +1,142 @@
+/* Reset */
 body {
+  font-family: Arial, sans-serif;
   margin: 0;
-  font-family: Arial;
+  background: #f5f5f5;
 }
 
+/* Header */
 header {
-  background: black;
+  background: #222;
   color: white;
+  padding: 15px 30px;
   display: flex;
   justify-content: space-between;
-  padding: 15px;
+  align-items: center;
 }
 
+header h1 {
+  margin: 0;
+}
+
+/* Menu */
 nav a {
   color: white;
-  margin: 10px;
+  margin-left: 15px;
   text-decoration: none;
+  font-weight: bold;
 }
 
-.hero {
-  background: url('https://via.placeholder.com/1200x400') no-repeat center;
-  color: white;
-  text-align: center;
-  padding: 100px;
+nav a:hover {
+  color: #00ffcc;
 }
 
-.products {
-  display: flex;
-  justify-content: center;
+/* Books Layout */
+.books {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
   padding: 20px;
 }
 
-.card {
-  border: 1px solid #ddd;
+/* Book Card */
+.book {
+  background: white;
+  border-radius: 10px;
   padding: 15px;
   text-align: center;
-  width: 200px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: 0.3s;
 }
 
-.card img {
+.book:hover {
+  transform: scale(1.05);
+}
+
+/* Book Image */
+.book img {
   width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
+/* Button */
 button {
-  background: black;
+  background: green;
   color: white;
   padding: 10px;
   border: none;
   cursor: pointer;
-}
-.filter {
-  text-align: center;
-  margin: 20px;
+  border-radius: 5px;
+  margin-top: 10px;
 }
 
-.filter button {
-  padding: 10px 15px;
-  margin: 5px;
-  border: none;
-  background: black;
-  color: white;
-  cursor: pointer;
+button:hover {
+  background: darkgreen;
 }
+
+/* Cart Section */
+#cart {
+  padding: 20px;
+  background: white;
+  margin: 20px;
+  border-radius: 10px;
+}
+
+/* Form */
 form {
-  text-align: center;
-  margin: 30px;
+  padding: 20px;
 }
 
 input {
-  padding: 10px;
   width: 250px;
+  padding: 10px;
+  margin-bottom: 10px;
 }
 
-button {
-  padding: 10px 20px;
+/* QR Section */
+#qr {
+  text-align: center;
+  padding: 20px;
+}
+
+/* 📱 Mobile */
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  nav {
+    margin-top: 10px;
+  }
+
+  input {
+    width: 100%;
+  }
+}
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  margin: 100px auto;
+  width: 300px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.close {
+  float: right;
+  cursor: pointer;
+  font-size: 20px;
 }
