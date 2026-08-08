@@ -1,21 +1,16 @@
 // ===============================
 // Telegram Settings
 // ===============================
-
-const BOT_TOKEN = "8957383635:AAEm-_fOaoM_uI_y_6t4xTio9HCdOkDwzi4";
-const CHAT_ID = "8845329448";
-
+const BOT_TOKEN = "8920437438:AAGfKDgZ6SEy_jwUkshhoR7WqQuPNIDsN5w";
+const CHAT_ID = "8183785692";
 
 // ===============================
 // Cart
 // ===============================
-
 let cart = [];
 
-
-// បន្ថែមសៀវភៅ
+// ➕ Add to Cart
 function addToCart(name, price) {
-
     cart.push({
         name: name,
         price: price
@@ -26,10 +21,20 @@ function addToCart(name, price) {
     alert("✅ បានបន្ថែម " + name + " ទៅក្នុងកន្ត្រក!");
 }
 
+// ❌ Remove Item
+function removeItem(index) {
+    cart.splice(index, 1);
+    showCart();
+}
 
-// បង្ហាញកន្ត្រក
+// 🗑 Clear Cart
+function clearCart() {
+    cart = [];
+    showCart();
+}
+
+// 📦 Show Cart
 function showCart() {
-
     const cartDiv = document.getElementById("cart");
 
     if (!cartDiv) return;
@@ -47,6 +52,10 @@ function showCart() {
         html += `
             <p>
                 ${index + 1}. ${item.name} - $${item.price}
+                <button onclick="removeItem(${index})"
+                style="background:red;color:white;border:none;padding:5px 10px;border-radius:5px;margin-left:10px;">
+                    ❌ Remove
+                </button>
             </p>
         `;
 
@@ -56,18 +65,19 @@ function showCart() {
     html += `
         <hr>
         <h3>💰 សរុប៖ $${total}</h3>
+        <button onclick="clearCart()" 
+        style="background:black;color:white;padding:8px 15px;border:none;border-radius:5px;">
+            🗑 Clear Cart
+        </button>
     `;
 
     cartDiv.innerHTML = html;
 }
 
-
 // ===============================
 // QR Popup
 // ===============================
-
 function openQR() {
-
     if (cart.length === 0) {
         alert("⚠️ សូមជ្រើសរើសសៀវភៅជាមុនសិន!");
         return;
@@ -76,57 +86,38 @@ function openQR() {
     document.getElementById("qrModal").style.display = "block";
 }
 
-
 function closeQR() {
-
     document.getElementById("qrModal").style.display = "none";
 }
 
-
 // ===============================
-// Confirm Payment
+// Confirm Order + Telegram
 // ===============================
-
 async function confirmOrder() {
 
     const name = document.getElementById("name").value.trim();
     const phone = document.getElementById("phone").value.trim();
     const address = document.getElementById("address").value.trim();
 
-    // ពិនិត្យព័ត៌មានអតិថិជន
     if (!name || !phone || !address) {
-
-        alert("⚠️ សូមបំពេញ ឈ្មោះ លេខទូរស័ព្ទ និងអាសយដ្ឋាន!");
+        alert("⚠️ សូមបំពេញព័ត៌មានអោយពេញ!");
         return;
     }
 
-
-    // ពិនិត្យកន្ត្រក
     if (cart.length === 0) {
-
         alert("⚠️ មិនមានសៀវភៅក្នុងកន្ត្រកទេ!");
         return;
     }
 
-
-    // ===============================
-    // បង្កើត Order
-    // ===============================
-
     let total = 0;
-
     let products = "";
 
     cart.forEach((item, index) => {
-
         products += `${index + 1}. ${item.name} - $${item.price}\n`;
-
         total += Number(item.price);
     });
 
-
-    const message =
-`📚 NEW BOOK ORDER
+    const message = `📚 NEW BOOK ORDER
 
 👤 ឈ្មោះ: ${name}
 📞 ទូរស័ព្ទ: ${phone}
@@ -138,105 +129,61 @@ ${products}
 
 💳 ស្ថានភាព: បង់ប្រាក់ជោគជ័យ ✅`;
 
-
-
-    // ===============================
-    // Alert Payment Success
-    // ===============================
-
-    alert("📩 ការបញ្ជាទិញត្រូវបានផ្ញើទៅហាង!\n\nសូមរង់ចាំការបញ្ជាក់ពីហាង។");
-
-    // ===============================
-    // Send Telegram
-    // ===============================
+    alert("📩 កំពុងផ្ញើ Order...");
 
     try {
-
-        const url =
-            `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
 
         const response = await fetch(url, {
-
             method: "POST",
-
             headers: {
                 "Content-Type": "application/json"
             },
-
             body: JSON.stringify({
                 chat_id: CHAT_ID,
                 text: message
             })
-
         });
-
 
         const data = await response.json();
 
-
         if (data.ok) {
+            alert("🎉 ផ្ញើទៅ Telegram ជោគជ័យ!");
 
-            alert("🎉 ការបញ្ជាទិញបានផ្ញើទៅ Telegram ជោគជ័យ!");
-
-            // សម្អាតកន្ត្រក
             cart = [];
-
             showCart();
 
-            // សម្អាត Form
             document.querySelector("form").reset();
-
-            // បិទ QR
             closeQR();
-
         } else {
-
+            alert("❌ Telegram error!");
             console.error(data);
-
-            alert("❌ ផ្ញើទៅ Telegram មិនបានជោគជ័យ!");
-
         }
 
     } catch (error) {
-
         console.error(error);
-
-        alert("❌ មានបញ្ហាក្នុងការភ្ជាប់ Telegram!");
-
+        alert("❌ Connection error!");
     }
 }
 
-
 // ===============================
-// Prevent Form Submit
+// Prevent Reload
 // ===============================
-
 function sendOrder(event) {
-
     event.preventDefault();
-
 }
-
 
 // ===============================
 // Close QR when click outside
 // ===============================
-
 window.onclick = function(event) {
-
     const modal = document.getElementById("qrModal");
-
     if (event.target === modal) {
-
         closeQR();
-
     }
-
 };
-
 
 // ===============================
 // Start
 // ===============================
-
 showCart();
