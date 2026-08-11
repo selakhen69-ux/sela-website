@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ទីលានកីឡា — ព័ត៌មាន និងលទ្ធផលកីឡាគ្រប់ប្រភេទ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0B1220;
+    --navy-2:#121B2E;
+    --navy-3:#1A2540;
+    --ink:#ECEEF2;
+    --ink-dim:#9AA5BB;
+    --ink-faint:#5D6A85;
+    --gold:#E3B23C;
+    --gold-bright:#F0C766;
+    --red:#E4483A;
+    --line:#233047;
+    --radius:6px;
+    --font-km:'Kantumruy Pro', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--navy);
+    color:var(--ink);
+    font-family:var(--font-km);
+    line-height:1.7;
+    background-image:
+      linear-gradient(180deg, rgba(227,178,60,0.04), transparent 300px),
+      radial-gradient(circle at 1px 1px, rgba(255,255,255,0.03) 1px, transparent 0);
+    background-size:auto, 26px 26px;
+  }
+
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--gold);color:var(--navy);}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:3px;}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px;}
+
+  h1,h2,h3{font-family:var(--font-km);font-weight:700;letter-spacing:-0.01em;}
+
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--gold);
+    display:flex;
+    align-items:center;
+    gap:9px;
+  }
+  .eyebrow::before{
+    content:'';width:6px;height:6px;border-radius:50%;
+    background:var(--gold);box-shadow:0 0 8px var(--gold);flex-shrink:0;
+  }
+
+  /* ---------- Live ticker ---------- */
+
+  .ticker-bar{
+    background:var(--red);
+    overflow:hidden;
+    white-space:nowrap;
+    border-bottom:1px solid rgba(0,0,0,0.2);
+  }
+
+  .ticker-track{
+    display:inline-flex;
+    align-items:center;
+    animation:scroll-left 32s linear infinite;
+    padding:9px 0;
+  }
+
+  @keyframes scroll-left{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
+
+  .ticker-item{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:0 26px;
+    font-family:var(--font-mono);
+    font-size:13px;
+    color:#fff;
+    border-right:1px solid rgba(255,255,255,0.25);
+  }
+
+  .ticker-item b{font-weight:700;}
+  .ticker-live{
+    background:#fff;color:var(--red);
+    font-size:10px;font-weight:700;
+    padding:2px 6px;border-radius:3px;
+    letter-spacing:0.05em;
+  }
+
+  /* ---------- Header ---------- */
+
+  header{
+    position:sticky;top:0;z-index:100;
+    background:rgba(11,18,32,0.9);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0;}
+
+  .logo{
+    font-family:var(--font-km);
+    font-size:20px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .logo .dot{color:var(--gold);}
+
+  .nav-links{display:flex;gap:30px;align-items:center;}
+  .nav-links a{font-size:14.5px;color:var(--ink-dim);transition:color .15s ease;}
+  .nav-links a:hover{color:var(--ink);}
+
+  .btn{
+    font-family:var(--font-km);
+    font-size:14px;font-weight:600;
+    padding:10px 20px;
+    border-radius:var(--radius);
+    border:1px solid var(--gold);
+    color:var(--gold-bright);
+    background:transparent;
+    cursor:pointer;
+    transition:all .15s ease;
+    display:inline-flex;align-items:center;gap:8px;
+    white-space:nowrap;
+  }
+  .btn:hover{background:var(--gold);color:var(--navy);}
+  .btn.primary{background:var(--gold);color:var(--navy);}
+  .btn.primary:hover{background:var(--gold-bright);}
+  .btn.telegram{border-color:#4FA6E5;color:#7FC1F0;}
+  .btn.telegram:hover{background:#4FA6E5;color:#fff;}
+
+  /* ---------- Hero ---------- */
+
+  .hero{
+    padding:72px 0 64px;
+    border-bottom:1px solid var(--line);
+    position:relative;
+    background:
+      linear-gradient(180deg, rgba(11,18,32,0.88), rgba(11,18,32,0.96) 60%, var(--navy) 100%),
+      url('https://images.pexels.com/photos/30651230/pexels-photo-30651230.jpeg?auto=compress&cs=tinysrgb&h=900&fit=crop&w=1600') center 30% / cover no-repeat;
+  }
+  .hero-grid{display:grid;grid-template-columns:1.15fr 0.85fr;gap:56px;align-items:center;}
+
+  .hero h1{
+    font-size:clamp(32px,4.2vw,50px);
+    line-height:1.2;
+    margin:16px 0 20px;
+  }
+  .hero h1 span{color:var(--gold-bright);}
+
+  .hero p.lede{color:var(--ink-dim);font-size:16.5px;max-width:48ch;margin-bottom:30px;}
+  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap;}
+
+  /* Match spotlight card */
+  .spotlight{
+    background:var(--navy-2);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+  }
+  .spotlight-head{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:12px 18px;border-bottom:1px solid var(--line);
+    font-family:var(--font-mono);font-size:11px;
+    letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-faint);
+  }
+  .spotlight-head .live{
+    display:flex;align-items:center;gap:6px;color:var(--red);
+  }
+  .live-dot{
+    width:6px;height:6px;border-radius:50%;background:var(--red);
+    box-shadow:0 0 6px var(--red);
+    animation:pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+  .score-panel{padding:26px 22px 24px;}
+  .score-row{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:10px 0;
+  }
+  .team{display:flex;align-items:center;gap:12px;font-size:16px;font-weight:600;}
+  .team-icon{
+    width:34px;height:34px;border-radius:50%;
+    background:var(--navy-3);display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-mono);font-size:12px;color:var(--gold);
+    flex-shrink:0;
+  }
+  .score{font-family:var(--font-mono);font-size:22px;font-weight:700;color:var(--ink);}
+  .score-divider{height:1px;background:var(--line);margin:4px 0;}
+  .match-meta{
+    margin-top:16px;padding-top:14px;border-top:1px solid var(--line);
+    font-family:var(--font-mono);font-size:12px;color:var(--ink-faint);
+    display:flex;justify-content:space-between;
+  }
+
+  /* ---------- Section shell ---------- */
+
+  section{padding:76px 0;border-bottom:1px solid var(--line);}
+  .section-head{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    gap:24px;margin-bottom:40px;flex-wrap:wrap;
+  }
+  .section-head h2{font-size:clamp(24px,2.8vw,32px);margin-top:12px;}
+  .section-head p{color:var(--ink-dim);max-width:42ch;font-size:14.5px;}
+
+  /* ---------- Sports grid ---------- */
+
+  .sports-grid{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:14px;
+  }
+  .sport-card{
+    background:var(--navy-2);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:22px 14px;
+    text-align:center;
+    transition:border-color .18s ease, transform .18s ease;
+  }
+  .sport-card:hover{border-color:var(--gold);transform:translateY(-3px);}
+  .sport-card{cursor:pointer;user-select:none;}
+  .sport-card svg{width:32px;height:32px;margin:0 auto 12px;display:block;transition:stroke .15s ease;}
+  .sport-card span{font-size:13.5px;font-weight:600;color:var(--ink);display:block;}
+  .sport-card small{
+    font-family:var(--font-mono);font-size:10.5px;color:var(--ink-faint);
+    display:block;margin-top:4px;
+  }
+  .sport-card.active{
+    border-color:var(--gold);
+    background:linear-gradient(180deg, rgba(227,178,60,0.12), var(--navy-2));
+  }
+  .sport-card.active span{color:var(--gold-bright);}
+
+  .filter-note{
+    font-family:var(--font-mono);
+    font-size:13px;
+    color:var(--ink-faint);
+    padding:18px 0;
+    text-align:center;
+  }
+
+  .item-hidden{display:none !important;}
+
+  /* ---------- Schedule ---------- */
+
+  .schedule-table{border-top:1px solid var(--line);}
+  .schedule-row{
+    display:grid;
+    grid-template-columns:90px 1fr 140px 100px;
+    gap:18px;
+    align-items:center;
+    padding:18px 0;
+    border-bottom:1px solid var(--line);
+    font-size:14.5px;
+  }
+  .schedule-row .time{
+    font-family:var(--font-mono);color:var(--gold-bright);font-size:13px;
+  }
+  .schedule-row .matchup{font-weight:600;}
+  .schedule-row .sport-tag{
+    font-family:var(--font-mono);font-size:11px;color:var(--ink-faint);
+    text-transform:uppercase;letter-spacing:0.05em;
+  }
+  .schedule-row .status{
+    font-family:var(--font-mono);font-size:11px;text-align:right;
+    color:var(--ink-faint);
+  }
+  .schedule-row .status.live{color:var(--red);font-weight:700;}
+
+  /* ---------- News ---------- */
+
+  .news-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+  }
+  .news-card{
+    background:var(--navy-2);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+    transition:border-color .18s ease, transform .18s ease;
+  }
+  .news-card:hover{border-color:var(--gold);transform:translateY(-3px);}
+  .news-thumb{
+    height:150px;
+    border-bottom:1px solid var(--line);
+    overflow:hidden;
+    position:relative;
+  }
+  .news-thumb img{
+    width:100%;height:100%;
+    object-fit:cover;
+    display:block;
+    filter:saturate(0.9) contrast(1.05);
+    transition:transform .3s ease;
+  }
+  .news-card:hover .news-thumb img{transform:scale(1.05);}
+  .news-body{padding:18px 20px 20px;}
+  .news-tag{
+    font-family:var(--font-mono);font-size:10.5px;color:var(--gold);
+    text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;
+    display:block;
+  }
+  .news-body h3{font-size:16.5px;margin-bottom:8px;line-height:1.4;}
+  .news-body p{font-size:13.5px;color:var(--ink-dim);}
+
+  /* ---------- Telegram CTA (signature) ---------- */
+
+  .telegram-board{
+    background:linear-gradient(135deg, var(--navy-2), var(--navy-3));
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:46px 44px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:40px;
+    flex-wrap:wrap;
+    position:relative;
+    overflow:hidden;
+  }
+  .telegram-board::before{
+    content:'';
+    position:absolute;
+    top:-40%;right:-10%;
+    width:300px;height:300px;
+    background:radial-gradient(circle, rgba(79,166,229,0.15), transparent 70%);
+  }
+  .tg-text{max-width:52ch;position:relative;}
+  .tg-text h2{font-size:26px;margin-bottom:10px;}
+  .tg-text p{color:var(--ink-dim);font-size:15px;}
+  .tg-count{
+    font-family:var(--font-mono);
+    font-size:13px;color:#7FC1F0;
+    margin-top:14px;
+    display:flex;align-items:center;gap:8px;
+  }
+
+  /* ---------- Footer ---------- */
+
+  footer{padding:32px 0;}
+  .footer-row{
+    display:flex;justify-content:space-between;align-items:center;
+    flex-wrap:wrap;gap:16px;
+  }
+  .footer-links{display:flex;gap:22px;font-size:13px;color:var(--ink-faint);}
+  .footer-links a:hover{color:var(--ink-dim);}
+
+  /* ---------- Responsive ---------- */
+
+  @media (max-width: 960px){
+    .sports-grid{grid-template-columns:repeat(3,1fr);}
+    .news-grid{grid-template-columns:1fr;}
+  }
+
+  @media (max-width: 860px){
+    .hero-grid{grid-template-columns:1fr;}
+    .nav-links{display:none;}
+    .schedule-row{grid-template-columns:70px 1fr 90px;}
+    .schedule-row .sport-tag{display:none;}
+    section{padding:54px 0;}
+    .hero{padding:48px 0 52px;}
+    .telegram-board{padding:32px 24px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="ticker-bar">
+  <div class="ticker-track">
+    <span class="ticker-item"><span class="ticker-live">LIVE</span> បាល់ទាត់ <b>សៀមរាប អង្គរ 2 – 1 បន្ទាយមានជ័យ</b></span>
+    <span class="ticker-item">បាល់បោះ <b>ភ្នំពេញ អ៊ីហ្គល 88 – 81 បាត់ដំបង</b></span>
+    <span class="ticker-item">វ៉លីបល <b>កំពង់ចាម 3 – 1 កែប</b></span>
+    <span class="ticker-item"><span class="ticker-live">LIVE</span> គុនខ្មែរ <b>សំណាញ់ រង្វាន់ទី ៣</b></span>
+    <span class="ticker-item">ជល់ដំបង <b>លទ្ធផលពេញលេញ​នៅ ២០:៣០</b></span>
+    <!-- duplicate for seamless loop -->
+    <span class="ticker-item"><span class="ticker-live">LIVE</span> បាល់ទាត់ <b>សៀមរាប អង្គរ 2 – 1 បន្ទាយមានជ័យ</b></span>
+    <span class="ticker-item">បាល់បោះ <b>ភ្នំពេញ អ៊ីហ្គល 88 – 81 បាត់ដំបង</b></span>
+    <span class="ticker-item">វ៉លីបល <b>កំពង់ចាម 3 – 1 កែប</b></span>
+    <span class="ticker-item"><span class="ticker-live">LIVE</span> គុនខ្មែរ <b>សំណាញ់ រង្វាន់ទី ៣</b></span>
+    <span class="ticker-item">ជល់ដំបង <b>លទ្ធផលពេញលេញ​នៅ ២០:៣០</b></span>
+  </div>
+</div>
+
+<header>
+  <div class="wrap nav">
+    <a href="#" class="logo">ទីលាន<span class="dot">កីឡា</span></a>
+    <nav class="nav-links">
+      <a href="#sports">ប្រភេទកីឡា</a>
+      <a href="#schedule">កាលវិភាគ</a>
+      <a href="#news">ព័ត៌មាន</a>
+      <a href="#telegram">Telegram</a>
+    </nav>
+    <a href="https://t.me/your_channel_name" target="_blank" rel="noopener" class="btn telegram">
+      ចូលរួម Telegram
+    </a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">ព័ត៌មាន និងលទ្ធផលកីឡាគ្រប់ប្រភេទ — ផ្ទាល់ពេលវេលា</div>
+      <h1>តាមដានគ្រប់ការប្រកួត<br>លើ <span>ទីលានតែមួយ</span></h1>
+      <p class="lede">ពិន្ទុផ្ទាល់ ព័ត៌មានថ្មីៗ និងកាលវិភាគប្រកួតកីឡាគ្រប់ប្រភេទ — បាល់ទាត់ បាល់បោះ វ៉លីបល គុនខ្មែរ និងជល់ដំបង។ ចូលរួម Telegram របស់យើងដើម្បីទទួលបានការជូនដំណឹងភ្លាមៗ។</p>
+      <div class="hero-ctas">
+        <a href="#schedule" class="btn primary">មើលកាលវិភាគ</a>
+        <a href="@anhahzin2" target="_blank" rel="noopener" class="btn telegram">ទទួលពិន្ទុតាម Telegram</a>
+      </div>
+    </div>
+
+    <div class="spotlight">
+      <div class="spotlight-head">
+        <span>ការប្រកួតសំខាន់</span>
+        <span class="live"><span class="live-dot"></span>LIVE — ទី ២</span>
+      </div>
+      <div class="score-panel">
+        <div class="score-row">
+          <div class="team"><span class="team-icon">SR</span> សៀមរាប អង្គរ</div>
+          <div class="score">2</div>
+        </div>
+        <div class="score-divider"></div>
+        <div class="score-row">
+          <div class="team"><span class="team-icon">BM</span> បន្ទាយមានជ័យ</div>
+          <div class="score">1</div>
+        </div>
+        <div class="match-meta">
+          <span>បាល់ទាត់ · លីគជាតិ</span>
+          <span>ទី ២ — 68'</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="sports">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">ជ្រើសរើសកីឡាដែលចង់តាមដាន</div>
+        <h2>កីឡាគ្រប់ប្រភេទ</h2>
+      </div>
+      <p>ចុចលើប្រភេទកីឡាណាមួយ ដើម្បីមើលព័ត៌មាន និងលទ្ធផលថ្មីៗ។</p>
+    </div>
+
+    <div class="sports-grid" id="sportsGrid">
+      <div class="sport-card" data-sport="football" role="button" tabindex="0" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#E3B23C" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18M6 6l12 12M18 6L6 18"/></svg>
+        <span>បាល់ទាត់</span><small>FOOTBALL</small>
+      </div>
+      <div class="sport-card" data-sport="basketball" role="button" tabindex="0" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#E3B23C" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18M5 5c4 4 4 10 0 14M19 5c-4 4-4 10 0 14"/></svg>
+        <span>បាល់បោះ</span><small>BASKETBALL</small>
+      </div>
+      <div class="sport-card" data-sport="volleyball" role="button" tabindex="0" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#E3B23C" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4v4M12 16v4M6 6l3 3M18 6l-3 3M6 18l3-3M18 18l-3-3"/></svg>
+        <span>វ៉លីបល</span><small>VOLLEYBALL</small>
+      </div>
+      <div class="sport-card" data-sport="kunkhmer" role="button" tabindex="0" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#E3B23C" stroke-width="1.6"><rect x="3" y="10" width="6" height="6" rx="3"/><rect x="15" y="10" width="6" height="6" rx="3"/><path d="M9 13h6"/></svg>
+        <span>គុនខ្មែរ</span><small>KUN KHMER</small>
+      </div>
+      <div class="sport-card" data-sport="sepaktakraw" role="button" tabindex="0" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#E3B23C" stroke-width="1.6"><path d="M4 20l7-13M13 7l7 13M9 15h6"/></svg>
+        <span>ជល់ដំបង</span><small>SEPAK TAKRAW</small>
+      </div>
+      <div class="sport-card" data-sport="cycling" role="button" tabindex="0" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#E3B23C" stroke-width="1.6"><path d="M13 4l-9 9 3 3 9-9M16 7l3-3M8 15l-4 4"/></svg>
+        <span>ជិះកង់</span><small>CYCLING</small>
+      </div>
+    </div>
+    <p id="filterNote" class="filter-note" hidden></p>
+  </div>
+</section>
+
+<section id="schedule">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">ថ្ងៃនេះ — 10 សីហា 2026</div>
+        <h2>កាលវិភាគប្រកួត</h2>
+      </div>
+      <p>ការប្រកួតទាំងអស់ដែលនឹងចាក់ផ្សាយថ្ងៃនេះ តាមម៉ោង។</p>
+    </div>
+
+    <div class="schedule-table" id="scheduleTable">
+      <div class="schedule-row" data-sport="football">
+        <span class="time">16:00</span>
+        <span class="matchup">សៀមរាប អង្គរ ទល់នឹង បន្ទាយមានជ័យ</span>
+        <span class="sport-tag">បាល់ទាត់</span>
+        <span class="status live">កំពុងលេង</span>
+      </div>
+      <div class="schedule-row" data-sport="basketball">
+        <span class="time">18:30</span>
+        <span class="matchup">ភ្នំពេញ អ៊ីហ្គល ទល់នឹង បាត់ដំបង</span>
+        <span class="sport-tag">បាល់បោះ</span>
+        <span class="status">ចប់ — 88-81</span>
+      </div>
+      <div class="schedule-row" data-sport="volleyball">
+        <span class="time">19:00</span>
+        <span class="matchup">កំពង់ចាម ទល់នឹង កែប</span>
+        <span class="sport-tag">វ៉លីបល</span>
+        <span class="status">មិនទាន់ចាប់ផ្ដើម</span>
+      </div>
+      <div class="schedule-row" data-sport="kunkhmer">
+        <span class="time">20:30</span>
+        <span class="matchup">កម្មវិធីគុនខ្មែរ — សំណាញ់ចុងក្រោយ</span>
+        <span class="sport-tag">គុនខ្មែរ</span>
+        <span class="status">មិនទាន់ចាប់ផ្ដើម</span>
+      </div>
+    </div>
+    <p class="filter-note" id="scheduleEmpty" hidden>មិនមានការប្រកួតសម្រាប់កីឡានេះនៅថ្ងៃនេះទេ។</p>
+  </div>
+</section>
+
+<section id="news">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">ថ្មីៗ</div>
+        <h2>ព័ត៌មានកីឡា</h2>
+      </div>
+      <p>ព័ត៌មានចុងក្រោយពីលីគជាតិ និងកម្មវិធីកីឡាក្នុងស្រុក។</p>
+    </div>
+
+    <div class="news-grid" id="newsGrid">
+      <div class="news-card" data-sport="football">
+        <div class="news-thumb"><img src="https://images.pexels.com/photos/3991976/pexels-photo-3991976.jpeg?auto=compress&cs=tinysrgb&h=400&fit=crop&w=700" alt="ការប្រកួតបាល់ទាត់នៅពេលយប់ក្នុងទីលាន" loading="lazy"></div>
+        <div class="news-body">
+          <span class="news-tag">បាល់ទាត់</span>
+          <h3>លីគជាតិចាប់ផ្ដើមរដូវកាលថ្មី ជាមួយក្រុមចូលរួម ១២</h3>
+          <p>រដូវកាលថ្មីនេះនឹងមានការប្រកួតជាង ១៥០ គូ ក្នុងរយៈពេល ៨ ខែ។</p>
+        </div>
+      </div>
+      <div class="news-card" data-sport="basketball">
+        <div class="news-thumb"><img src="https://images.pexels.com/photos/30986365/pexels-photo-30986365.jpeg?auto=compress&cs=tinysrgb&h=400&fit=crop&w=700" alt="កីឡាករលោតបោះបាល់ក្នុងកម្មវិធីបាល់បោះ" loading="lazy"></div>
+        <div class="news-body">
+          <span class="news-tag">បាល់បោះ</span>
+          <h3>ក្រុមភ្នំពេញ អ៊ីហ្គល ឈ្នះជាប់គ្នា ៥ ប្រកួត</h3>
+          <p>ក្រុមកំពុងឈរនៅចំណាត់ថ្នាក់លេខ ១ ក្នុងលីគរដូវកាលនេះ។</p>
+        </div>
+      </div>
+      <div class="news-card" data-sport="kunkhmer">
+        <div class="news-thumb"><img src="https://images.pexels.com/photos/17892071/pexels-photo-17892071.jpeg?auto=compress&cs=tinysrgb&h=400&fit=crop&w=700" alt="ការប្រកួតគុនខ្មែរនៅលើឆាកឯកទេស" loading="lazy"></div>
+        <div class="news-body">
+          <span class="news-tag">គុនខ្មែរ</span>
+          <h3>កម្មវិធីប្រកួតធំប្រចាំខែនេះនឹងធ្វើឡើងចុងសប្ដាហ៍</h3>
+          <p>មានកម្មវិធីសំណាញ់សំខាន់ៗចំនួន ៦ លើកនៅចុងសប្ដាហ៍នេះ។</p>
+        </div>
+      </div>
+    </div>
+    <p class="filter-note" id="newsEmpty" hidden>មិនមានព័ត៌មានសម្រាប់កីឡានេះនៅឡើយទេ។</p>
+  </div>
+</section>
+
+<section id="telegram" style="border-bottom:none;">
+  <div class="wrap">
+    <div class="telegram-board">
+      <div class="tg-text">
+        <div class="eyebrow" style="color:#7FC1F0;">មិនចង់ខកខានលទ្ធផលទេ?</div>
+        <h2 style="margin-top:10px;">ចូលរួម Telegram របស់យើង</h2>
+        <p>ទទួលបានការជូនដំណឹងភ្លាមៗនៅពេលមានលទ្ធផលថ្មី កាលវិភាគប្រកួត និងព័ត៌មានកីឡាគ្រប់ប្រភេទ។</p>
+        <div class="tg-count">
+          <span>●</span> សមាជិកកំពុងតាមដានឥឡូវនេះ
+        </div>
+      </div>
+      <a href="https://t.me/your_channel_name" target="_blank" rel="noopener" class="btn telegram" style="font-size:15px;padding:14px 26px;">
+        ចូលរួមឥឡូវនេះ →
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-row">
+    <a href="#" class="logo" style="font-size:16px;">ទីលាន<span class="dot">កីឡា</span></a>
+    <div class="footer-links">
+      <a href="#sports">ប្រភេទកីឡា</a>
+      <a href="#schedule">កាលវិភាគ</a>
+      <a href="#telegram">Telegram</a>
+    </div>
+    <span style="font-family:var(--font-mono);font-size:12px;color:var(--ink-faint);">© 2026 ទីលានកីឡា</span>
+  </div>
+</footer>
+
+<script>
+  const cards = document.querySelectorAll('.sport-card');
+  const scheduleRows = document.querySelectorAll('#scheduleTable .schedule-row');
+  const newsCards = document.querySelectorAll('#newsGrid .news-card');
+  const scheduleEmpty = document.getElementById('scheduleEmpty');
+  const newsEmpty = document.getElementById('newsEmpty');
+  const filterNote = document.getElementById('filterNote');
+
+  let activeSport = null;
+
+  function applyFilter(){
+    let scheduleVisible = 0;
+    scheduleRows.forEach(row => {
+      const match = !activeSport || row.dataset.sport === activeSport;
+      row.classList.toggle('item-hidden', !match);
+      if (match) scheduleVisible++;
+    });
+    scheduleEmpty.hidden = scheduleVisible !== 0;
+
+    let newsVisible = 0;
+    newsCards.forEach(card => {
+      const match = !activeSport || card.dataset.sport === activeSport;
+      card.classList.toggle('item-hidden', !match);
+      if (match) newsVisible++;
+    });
+    newsEmpty.hidden = newsVisible !== 0;
+
+    if (activeSport) {
+      const label = document.querySelector('.sport-card.active span').textContent;
+      filterNote.textContent = `កំពុងបង្ហាញតែ "${label}" — ចុចម្ដងទៀតលើកីឡានោះដើម្បីមើលទាំងអស់វិញ`;
+      filterNote.hidden = false;
+    } else {
+      filterNote.hidden = true;
+    }
+  }
+
+  function selectSport(card){
+    const sport = card.dataset.sport;
+    if (activeSport === sport) {
+      // clicking the already-active sport clears the filter
+      activeSport = null;
+    } else {
+      activeSport = sport;
+    }
+    cards.forEach(c => {
+      const isActive = c.dataset.sport === activeSport;
+      c.classList.toggle('active', isActive);
+      c.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    });
+    applyFilter();
+  }
+
+  cards.forEach(card => {
+    card.addEventListener('click', () => selectSport(card));
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        selectSport(card);
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
